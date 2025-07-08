@@ -23,8 +23,8 @@ function [U_final, n_iter] = Lib_liebmann(U0, max_iter)
         % 保存旧值
         U_old = U;
         
-        % 使用旧值更新所有内部节点
-        for i = 2:m-1
+        % 使用旧值更新所有内部节点（左下至右上）
+        for i = m-1:-1:2
             for j = 2:n-1
                 U(i,j) = 0.25 * (U_old(i-1,j) + U_old(i+1,j) + U_old(i,j-1) + U_old(i,j+1));
             end

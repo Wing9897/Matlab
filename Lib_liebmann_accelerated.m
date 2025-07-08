@@ -20,8 +20,8 @@ function [U_final, n_iter] = Lib_liebmann_accelerated(U0, max_iter)
     
     % 迭代求解
     for iter = 1:max_iter
-        % 使用已更新的新值和未更新的旧值
-        for i = 2:m-1
+        % 使用已更新的新值和未更新的旧值（左下至右上）
+        for i = m-1:-1:2
             for j = 2:n-1
                 U(i,j) = 0.25 * (U(i-1,j) + U(i+1,j) + U(i,j-1) + U(i,j+1));
             end
