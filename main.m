@@ -89,9 +89,9 @@ b = [15; 20];
 [solution1, value1, iter1] = Lib_simplex_method(c, A, b);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Lib_simplex_method 方式2：手動構建初始表格
-initial_tableau = [1, 2, 1, 0, 15; 
-                    2, -1, 0, 1, 20];
-objective_coeffs = [15, 12];
+% initial_tableau = [1, 2, 1, 0, 15; 
+%                    2, -1, 0, 1, 20];
+% objective_coeffs = [15, 12];
 
-[solution2, value2, iter2] = Lib_simplex_method(initial_tableau, objective_coeffs);
+%[solution2, value2, iter2] = Lib_simplex_method(initial_tableau, objective_coeffs);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
