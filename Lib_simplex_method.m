@@ -58,7 +58,15 @@ function [optimal_solution, optimal_value, iterations] = Lib_simplex_method(vara
             end
             fprintf(' <= %.0f\n', b(i));
         end
-        fprintf('  x1, x2, ... >= 0\n');
+        fprintf('  ');
+        for i = 1:length(c)
+            if i == 1
+                fprintf('x%d', i);
+            else
+                fprintf(', x%d', i);
+            end
+        end
+        fprintf(' >= 0\n');
         
         % 自動構建初始單純形表
         [m, n] = size(A);
@@ -118,7 +126,7 @@ function [optimal_solution, optimal_value, iterations] = Lib_simplex_method(vara
         % 檢查是否達到最優解
         z_row = tableau(m+1, 1:n-1);
         if all(z_row >= 0)
-            display_tableau(tableau, basic_vars, 0);
+            display_tableau(tableau, basic_vars, 0, length(objective_coeffs));
             break;
         end
         
@@ -136,7 +144,7 @@ function [optimal_solution, optimal_value, iterations] = Lib_simplex_method(vara
         end
         
         % 顯示帶有ratio的當前表格
-        display_tableau(tableau, basic_vars, entering_col);
+        display_tableau(tableau, basic_vars, entering_col, length(objective_coeffs));
         
         % 計算ratio並找到leaving變數
         min_ratio = inf;
@@ -200,78 +208,61 @@ function [optimal_solution, optimal_value, iterations] = Lib_simplex_method(vara
     end
 end
 
-function display_tableau(tableau, basic_vars, entering_col)
+function display_tableau(tableau, basic_vars, entering_col, num_vars)
     % 顯示單純形表的輔助函數
     [m, n] = size(tableau);
     
     % 列標題
-    fprintf('%-8s', 'Basic');
+    fprintf('%-10s', 'Basic');
     for j = 1:n-1
-        if j <= 2
-            fprintf('%-8s', sprintf('x%d', j));
+        if j <= num_vars
+            fprintf('%-10s', sprintf('x%d', j));
         else
-            fprintf('%-8s', sprintf('S%d', j-2));
+            fprintf('%-10s', sprintf('S%d', j-num_vars));
         end
     end
-    fprintf('%-8s', 'RHS');
+    fprintf('%-10s', 'RHS');
     if entering_col >= 0
-        fprintf('%-8s', 'Ratio');
+        fprintf('%-10s', 'Ratio');
     end
     fprintf('\n');
     
     % 約束行
     for i = 1:m-1
-        if basic_vars(i) <= 2
-            fprintf('%-8s', sprintf('x%d', basic_vars(i)));
+        if basic_vars(i) <= num_vars
+            fprintf('%-10s', sprintf('x%d', basic_vars(i)));
         else
-            fprintf('%-8s', sprintf('S%d', basic_vars(i)-2));
+            fprintf('%-10s', sprintf('S%d', basic_vars(i)-num_vars));
         end
         for j = 1:n
-            fprintf('%-8.4f', tableau(i, j));
+            fprintf('%-10.4f', tableau(i, j));
         end
         
         % 計算並顯示ratio
         if entering_col >= 0
             if entering_col > 0
-                % 迭代過程中，顯示相對於entering變數的ratio（允許負數）
-                if tableau(i, entering_col) ~= 0
+                % 迭代過程中，只有係數大於0時才顯示ratio
+                if tableau(i, entering_col) > 0
                     ratio = tableau(i, n) / tableau(i, entering_col);
-                    fprintf('%-8.4f', ratio);
+                    fprintf('%-10.4f', ratio);
                 else
-                    fprintf('%-8s', '-');
+                    fprintf('%-10s', '-');
                 end
             else
-                % 最終迭代時，顯示所有可能的ratio值（以第一個變數為基準）
-                if tableau(i, 1) ~= 0
-                    ratio = tableau(i, n) / tableau(i, 1);
-                    fprintf('%-8.4f', ratio);
-                else
-                    % 如果第一列為0，嘗試其他列
-                    found_ratio = false;
-                    for j = 2:n-1
-                        if tableau(i, j) ~= 0
-                            ratio = tableau(i, n) / tableau(i, j);
-                            fprintf('%-8.4f', ratio);
-                            found_ratio = true;
-                            break;
-                        end
-                    end
-                    if ~found_ratio
-                        fprintf('%-8.4f', tableau(i, n));
-                    end
-                end
+                % 最終迭代時，不顯示ratio值
+                fprintf('%-10s', '-');
             end
         end
         fprintf('\n');
     end
     
     % Z行
-    fprintf('%-8s', 'Z');
+    fprintf('%-10s', 'Z');
     for j = 1:n
-        fprintf('%-8.4f', tableau(m, j));
+        fprintf('%-10.4f', tableau(m, j));
     end
     if entering_col >= 0
-        fprintf('%-8s', '-');
+        fprintf('%-10s', '-');
     end
     fprintf('\n');
 end

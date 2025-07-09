@@ -75,23 +75,27 @@ clc
 % % 邊界條件在迭代過程中自動保持不變
 % [U_final, n_iter] = Lib_liebmann_accelerated_school(U, 6); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Lib_simplex_method 方式1：只需輸入目標函數和約束條件
-% 問題：最大化 Z = 15x1 + 12x2
-% 約束條件：
-%   x1 + 2x2 <= 15
-%   2x1 - x2 <= 20
-%   x1, x2 >= 0
-c = [15, 12];  % max Z = 15x1 + 12x2
-A = [1,  2;    % x1 + 2x2 <= 15
-     2, -1];   % 2x1 - x2 <= 20
-b = [15; 20];
+% % Lib_simplex_method
+% % 問題：最大化 Z = 15x1 + 12x2
+% % 約束條件：
+% %   x1 + 2x2 <= 15
+% %   2x1 - x2 <= 20
+% %   x1, x2 >= 0
+% c = [15, 12];  % max Z = 15x1 + 12x2
+% A = [1,  2;    % x1 + 2x2 <= 15
+%      2, -1];   % 2x1 - x2 <= 20
+% b = [15; 
+%      20];
+% 
+% [solution1, value1, iter1] = Lib_simplex_method(c, A, b);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Lib_simplex_method
+c = [8, 10 , 15];  % max Z = 15x1 + 12x2
+A = [1,  5 , 2;    % x1 + 2x2 <= 15
+     2, 3 , 5 ;
+     3, 2 , 5];   % 2x1 - x2 <= 20
+b = [40; 
+     60;
+     80];
 
 [solution1, value1, iter1] = Lib_simplex_method(c, A, b);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Lib_simplex_method 方式2：手動構建初始表格
-% initial_tableau = [1, 2, 1, 0, 15; 
-%                    2, -1, 0, 1, 20];
-% objective_coeffs = [15, 12];
-% 
-% [solution2, value2, iter2] = Lib_simplex_method(initial_tableau, objective_coeffs);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
