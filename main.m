@@ -56,24 +56,24 @@ clc
 % [U_final, n_iter] = Lib_liebmann(U, 3);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %Liebmann's method accelerated school version
-i = 4;
-j = 4;
-U = zeros(i,j); % 創建4x4網格
-
-% 設置邊界條件（根據 i, j 自動調整）
-U(1,:) = 0;    % 上邊界
-U(i,:) = 100;      % 下邊界
-U(:,1) = 100;      % 左邊界
-U(:,j) = 100;     % 右邊界
-
-
-%設置內部節點初始值（可選，這裡保持為0）
-U(2:3, 2:3) = [100 100  ; 
-               100 100  ;];
-
-% 調用 Lib_liebmann 方法（3次迭代）
-% 邊界條件在迭代過程中自動保持不變
-[U_final, n_iter] = Lib_liebmann_accelerated_school(U, 6); 
+% i = 4;
+% j = 4;
+% U = zeros(i,j); % 創建4x4網格
+% 
+% % 設置邊界條件（根據 i, j 自動調整）
+% U(1,:) = 0;    % 上邊界
+% U(i,:) = 100;      % 下邊界
+% U(:,1) = 100;      % 左邊界
+% U(:,j) = 100;     % 右邊界
+% 
+% 
+% %設置內部節點初始值（可選，這裡保持為0）
+% U(2:3, 2:3) = [100 100  ; 
+%                100 100  ;];
+% 
+% % 調用 Lib_liebmann 方法（3次迭代）
+% % 邊界條件在迭代過程中自動保持不變
+% [U_final, n_iter] = Lib_liebmann_accelerated_school(U, 6); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Lib_simplex_method 方式1：只需輸入目標函數和約束條件
 % 問題：最大化 Z = 15x1 + 12x2
@@ -92,6 +92,6 @@ b = [15; 20];
 % initial_tableau = [1, 2, 1, 0, 15; 
 %                    2, -1, 0, 1, 20];
 % objective_coeffs = [15, 12];
-
-%[solution2, value2, iter2] = Lib_simplex_method(initial_tableau, objective_coeffs);
+% 
+% [solution2, value2, iter2] = Lib_simplex_method(initial_tableau, objective_coeffs);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
